@@ -18,7 +18,8 @@ async def get_random_word():
 
 @router.get("/api/conversation-sample")
 async def get_conversation_sample():
-    cs = await conversation_sample()
+    rw = await random_word()
+    cs = await conversation_sample(word=rw['word'])
     channel = bot.get_channel(int(os.getenv("DISCORD_TARGET_CHANNEL_ID")))
     if channel:
         await channel.send(f"```{cs}```")

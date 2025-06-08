@@ -18,7 +18,8 @@ async def rw(ctx: commands.Context):
 
 @bot.command()
 async def cs(ctx: commands.Context):
-    cs = await conversation_sample()
+    rw = await random_word()
+    cs = await conversation_sample(word=rw['word'])
     await ctx.send(f"```{cs}```")
 
 class HintButton(discord.ui.Button):
