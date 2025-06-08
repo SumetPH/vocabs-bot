@@ -36,3 +36,16 @@ async def translate_word(word: str) -> TranslateTH:
     ])
     chain = prompt | structured_llm
     return await chain.ainvoke({"word": word})
+
+async def conversation_sample() -> str:
+    result = model.invoke("""
+        สร้าง 1 ประโยคสนทนา พร้อมความหมายบางคำ ตัวอย่างคำตอบ เช่น
+                          
+        A: Could you help me with this report?
+        B: Sure. What do you need help with?
+
+        - help (v.) ช่วยเหลือ
+        - report (n.) รายงาน
+        - need (v.) ต้องการ
+    """)
+    return result.content

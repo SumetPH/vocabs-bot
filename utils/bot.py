@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from utils.llm import translate_word, generate_sentence
+from utils.llm import conversation_sample, translate_word, generate_sentence
 from utils.word import remember_word, random_word
 
 intents = discord.Intents.default()
@@ -15,6 +15,11 @@ async def on_ready():
 async def rw(ctx: commands.Context):
     rw = await random_word()
     await ctx.send(rw['word'], view=RandomWordView(word=rw['word']))
+
+@bot.command()
+async def cs(ctx: commands.Context):
+    cs = await conversation_sample()
+    await ctx.send(f"```{cs}```")
 
 class HintButton(discord.ui.Button):
     def __init__(self, word):
@@ -52,14 +57,15 @@ class RandomWordView(discord.ui.View):
         super().__init__()
         self.word = word
 
-        if(show_hint):
-            self.add_item(HintButton(word=word))
+        if(show_remember):
+            self.add_item(RememberButton(word=word))
 
         if(show_translate):
             self.add_item(TranslateButton(word=word))
         
-        if(show_remember):
-            self.add_item(RememberButton(word=word))
+        if(show_hint):
+            self.add_item(HintButton(word=word))
+        
 
 
 
