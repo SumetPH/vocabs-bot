@@ -1,7 +1,7 @@
-from utils.llm import translate_word, generate_sentence
-from utils.word import remember_word, random_word
 import discord
 from discord.ext import commands
+from utils.llm import translate_word, generate_sentence
+from utils.word import remember_word, random_word
 
 intents = discord.Intents.default()
 intents.message_content = True
