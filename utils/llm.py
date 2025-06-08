@@ -1,0 +1,38 @@
+
+from langchain.chat_models import init_chat_model
+from langchain.prompts import ChatPromptTemplate
+from pydantic import BaseModel, Field
+from dotenv import load_dotenv
+
+load_dotenv() 
+
+model = init_chat_model("gpt-4o-mini", model_provider="openai")
+
+class GenerateSentence(BaseModel):
+    sentence: str = Field(description="generate a sentence with the given word")
+
+async def generate_sentence(word: str) -> GenerateSentence:
+    structured_llm = model.with_structured_output(GenerateSentence)
+    prompt = ChatPromptTemplate([
+        (
+            "human", 
+            "generate a sentence with the given word: {word}"
+        ),
+    ])
+    chain = prompt | structured_llm
+    return await chain.ainvoke({"word": word})
+
+class TranslateTH(BaseModel):
+    translate_th: str = Field(description="translate the given word to thai language")
+    parts: str = Field(description="parts of speech in english")
+
+async def translate_word(word: str) -> TranslateTH:
+    structured_llm = model.with_structured_output(TranslateTH)
+    prompt = ChatPromptTemplate([
+        (
+            "human", 
+            "translate the given word to thai language: {word}"
+        ),
+    ])
+    chain = prompt | structured_llm
+    return await chain.ainvoke({"word": word})
