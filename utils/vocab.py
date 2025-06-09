@@ -1,18 +1,18 @@
 import psycopg2.extras
 from utils.db import get_db_connection, release_db_connection
 
-async def get_words(q: str = None, limit: int = 10, page: int = 1):
+async def get_vocabs(q: str = None, limit: int = 10, page: int = 1):
     conn = get_db_connection()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     sql = f"""
-        select * from word
+        select * from vocabs
         where 1=1 
     """
     value = []
 
     if q:
-        sql += "and word ilike %s"
+        sql += "and vocab ilike %s"
         value.append(f"%{q}%")
     
 
@@ -30,12 +30,12 @@ async def get_words(q: str = None, limit: int = 10, page: int = 1):
     
     return rows
 
-async def random_word():
+async def random_vocab():
     conn = get_db_connection()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     sql = """
-        select * from word
+        select * from vocabs
         where remember = false
         order by random()
         limit 1
@@ -48,16 +48,16 @@ async def random_word():
 
     return row
 
-async def remember_word(word: str):
+async def remember_vocab(vocab: str):
     conn = get_db_connection()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     sql = """
-        update word
+        update vocabs
         set remember = true
-        where word = %s
+        where vocab = %s
     """
-    cur.execute(sql, (word,))
+    cur.execute(sql, (vocab,))
     conn.commit()
 
     cur.close()

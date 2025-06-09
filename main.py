@@ -1,6 +1,6 @@
 import os
 import asyncio
-from routers import router_index
+from routers import index
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +13,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3001",
-    "https://words-bot-discord-production.up.railway.app"
+    "https://vocabs-bot-discord-production.up.railway.app"
 ]
 
 app.add_middleware(
@@ -24,11 +24,11 @@ app.add_middleware(
    allow_headers=["*"],
 )
 
-app.include_router(router_index.router)
+app.include_router(index.router)
 
 @app.get('/')
 async def root():
-    return "Words Bot Discord"
+    return "Vocabs Bot Discord"
 
 loop = asyncio.get_event_loop()
 loop.create_task(bot.start(os.getenv("DISCORD_BOT_TOKEN")))
