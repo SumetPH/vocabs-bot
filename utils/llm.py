@@ -22,20 +22,15 @@ async def generate_sentence(vocab: str) -> GenerateSentence:
     chain = prompt | structured_llm
     return await chain.ainvoke({"vocab": vocab})
 
-class TranslateTH(BaseModel):
-    translate_th: str = Field(description="translate the given vocab to thai language")
-    parts: str = Field(description="parts of speech in english")
+async def translate_vocab(vocab: str) -> str:
+    result = model.invoke(f"""
+        แปล vocab ที่ให้เป็นภาษาไทย พร้อม คำอ่าน และ parts of speech เช่น
 
-async def translate_vocab(vocab: str) -> TranslateTH:
-    structured_llm = model.with_structured_output(TranslateTH)
-    prompt = ChatPromptTemplate([
-        (
-            "human", 
-            "translate the given vocab to thai language: {vocab}"
-        ),
-    ])
-    chain = prompt | structured_llm
-    return await chain.ainvoke({"vocab": vocab})
+        help (เฮลพฺ) v. ช่วยเหลือ
+
+        vocab : {vocab}
+    """)
+    return result.content
 
 async def conversation_sample(vocab: str) -> str:
     result = model.invoke(f"""
@@ -49,5 +44,16 @@ async def conversation_sample(vocab: str) -> str:
         - need (นีด) v. ต้องการ
 
         vocab: {vocab}
+    """)
+    return result.content
+
+async def test_llm():
+    vocab = "want"
+    result = model.invoke(f"""
+        แปล vocab ที่ให้เป็นภาษาไทย พร้อม คำอ่าน และ parts of speech เช่น
+
+        help (เฮลพฺ) v. ช่วยเหลือ
+
+        vocab : {vocab}
     """)
     return result.content

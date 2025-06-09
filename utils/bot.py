@@ -41,8 +41,7 @@ class TranslateButton(discord.ui.Button):
     
     async def callback(self, interaction: discord.Interaction):
         translate = await translate_vocab(self.vocab)
-        msg = f"Translate : {translate.translate_th}\nParts of Speech : {translate.parts}"
-        await interaction.response.send_message(msg, view=RandomVocabView(vocab=self.vocab, show_translate=False))
+        await interaction.response.send_message(translate, view=RandomVocabView(vocab=self.vocab, show_translate=False))
 
 class RememberButton(discord.ui.Button):
     def __init__(self, vocab):

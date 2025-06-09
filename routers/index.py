@@ -2,7 +2,7 @@ import os
 from fastapi import APIRouter
 from utils.bot import bot, RandomVocabView
 from utils.vocab import random_vocab
-from utils.llm import conversation_sample
+from utils.llm import conversation_sample, test_llm
 
 router = APIRouter()
 
@@ -26,3 +26,8 @@ async def get_conversation_sample():
         return {"message": "successfully"}
     else:
         return {"message": "channel not found"}
+
+@router.get('/api/test')
+async def test_router():
+    result = await test_llm()
+    return {"message": result}
