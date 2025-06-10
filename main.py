@@ -1,11 +1,7 @@
-import os
-import asyncio
-from routers import index
+from routers import index, line
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from utils.bot import bot
-
 
 load_dotenv() 
 
@@ -25,10 +21,8 @@ app.add_middleware(
 )
 
 app.include_router(index.router)
+app.include_router(line.router)
 
 @app.get('/')
 async def root():
     return "Vocabs Bot Discord"
-
-loop = asyncio.get_event_loop()
-loop.create_task(bot.start(os.getenv("DISCORD_BOT_TOKEN")))

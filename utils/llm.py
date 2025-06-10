@@ -20,7 +20,8 @@ async def generate_sentence(vocab: str) -> GenerateSentence:
         ),
     ])
     chain = prompt | structured_llm
-    return await chain.ainvoke({"vocab": vocab})
+    result = await chain.ainvoke({"vocab": vocab})
+    return result.sentence
 
 async def translate_vocab(vocab: str) -> str:
     result = model.invoke(f"""
