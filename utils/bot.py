@@ -57,7 +57,7 @@ class RememberButton(discord.ui.Button):
 
 class RandomVocabView(discord.ui.View):
     def __init__(self, vocab, show_translate=True, show_hint=True, show_remember=True):
-        super().__init__()
+        super().__init__(timeout=None)
         self.vocab = vocab
 
         if(show_remember):
