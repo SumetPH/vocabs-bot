@@ -7,10 +7,7 @@ load_dotenv()
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3001",
-    "https://vocabs-bot-discord-production.up.railway.app"
-]
+origins = ["*"]
 
 app.add_middleware(
    CORSMiddleware,
@@ -25,4 +22,4 @@ app.include_router(line.router)
 
 @app.get('/')
 async def root():
-    return "Vocabs Bot Discord"
+    return "Vocabs Bot"
