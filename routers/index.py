@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from utils.llm import test_llm
 from utils.line import line_random_vocab, line_conversation_sample
+from utils.vocab import random_vocab
 
 router = APIRouter()
 
@@ -22,5 +23,5 @@ async def get_conversation_sample():
 
 @router.get('/api/test')
 async def test_router():
-    result = await test_llm()
+    result = await random_vocab()
     return {"message": result}
